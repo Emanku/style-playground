@@ -1,0 +1,29 @@
+@function cssVarName($parts) {
+  $var: '-';
+  @each $part in $parts {
+    $var: if($part == normal, $var, $var + '-' + $part);
+  }
+  @return #{$var};
+}
+
+@function cssVar($parts, $fallback) {
+  $var: 'var(' + cssVarName($parts);
+  $var: $var + if($fallback, ', ' + $fallback, '');
+  @return #{$var + ')'};
+}
+
+@function getLightness($cssVar, $offset: 0%) {
+  @return if($offset == 0%, $cssVar, calc(#{$cssVar} + #{$offset}));
+}
+
+@mixin hslColor($usage, $color, $intensity, $lightOffset) {
+  #{cssVarName((color, $usage, $color, $intensity))}: hsl(
+    cssVar((palette, $color, hue), 0),
+    cssVar((palette, $color, saturation), 50%),
+    getLightness(cssVar((lightness, $usage), 50%), $lightOffset)
+  );
+}
+
+$colors: (neutral, primary, secondary, tertiary);
+
+$intensities: (mild, normal, intense);

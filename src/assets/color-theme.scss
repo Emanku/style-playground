@@ -1,0 +1,111 @@
+/* 
+  Hi, Sam here.
+  I'm trying out a dynamic hsl system using
+  css variables.  This is new for me but
+  seems really cool.
+*/
+
+@import url('./color-palette.scss');
+@import url('./colors-light.scss') (prefers-color-scheme: light);
+@import url('./colors-dark.scss') (prefers-color-scheme: dark);
+
+body,
+#app {
+  background-color: var(--color-surface-neutral);
+  color: var(--color-text-neutral);
+}
+
+$colors: (neutral, primary, secondary, tertiary);
+
+$intensities: (mild, normal, intense);
+
+@function matches($value) {
+  @return #{':is(.' + $value + ')'};
+}
+
+@function reverse($values) {
+  $re: ':not(';
+  $list: ();
+  @each $value in $values {
+    $list: if(checkNormalcy($value), $list, append($list, $value, $separator: comma));
+  }
+  $re: $re + $list + ')';
+  @return #{$re};
+}
+
+@function checkNormalcy($value) {
+  $re: false;
+  @if $value == neutral {
+    $re: true;
+  }
+  @if $value == normal {
+    $re: true;
+  }
+  @return $re;
+}
+
+@function getColor($color) {
+  @return if(checkNormalcy($color), reverse($colors), matches($color));
+}
+
+@function getIntensity($intensity) {
+  @return if(checkNormalcy($intensity), reverse($intensities), matches($intensity));
+}
+
+@function appendVariant($color, $intensity) {
+  $re: '-' + $color;
+  $re: if(checkNormalcy($intensity), $re, $re + '-' + $intensity);
+  @return $re;
+}
+
+@each $color in $colors {
+  @each $intensity in $intensities {
+    .surface#{getColor($color)}#{getIntensity($intensity)} {
+      background-color: var(--color-surface#{appendVariant($color, $intensity)});
+      color: var(--color-text#{appendVariant($color, $intensity)});
+      --color-text-emphasis: var(--color-emphasis#{appendVariant($color, $intensity)});
+    }
+  }
+}
+
+/* Links */
+:where(a):not(.button) {
+  color: var(--color-text-primary);
+}
+
+:where(a):is(.secondary) {
+  color: var(--color-text-secondary);
+}
+:where(a):is(.tertiary) {
+  color: var(--color-text-tertiary);
+}
+
+$buttonColors: (
+  primary: ':not(.secondary, .tertiary)',
+  secondary: ':is(.secondary)',
+  tertiary: ':is(.tertiary)'
+);
+
+@each $color, $is in $buttonColors {
+  :where(button, .button):not(.solid)#{$is} {
+    color: var(--color-text-#{$color});
+    background-color: transparent;
+  }
+
+  :where(button, .button):not(.solid)#{$is}:hover {
+    // background-color: var(--color-#{$color}-hover, red);
+  }
+
+  :where(button, .button):is(.outlined)#{$is} {
+    border-color: var(--color-text-#{$color});
+  }
+
+  :where(button, .button):is(.solid)#{$is} {
+    color: var(--color-text-#{$color});
+    background-color: var(--color-surface-#{$color});
+  }
+
+  :where(button, .button):is(.solid)#{$is}:hover {
+    background-color: var(--color-surface-#{$color});
+  }
+}

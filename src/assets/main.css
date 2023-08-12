@@ -1,0 +1,89 @@
+/* 
+  Hi, Sam here.
+  These are the main styles I'm adding to bring the layout more in line
+  with modern standards and my own personal preference.
+  I'm primarily mixing my previous experience with techniques from
+  Kevin Powell - https://www.kevinpowell.co/
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url('./color-theme.scss');
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  font-weight: normal;
+  line-height: inherit;
+}
+
+html {
+  color-scheme: light dark;
+}
+
+body {
+  display: flow-root;
+  cursor: default;
+  line-height: 1.6;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body,
+#app {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+.hero {
+  height: 100vh;
+  height: 100dvh;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a,
+button,
+.button {
+  cursor: pointer;
+}
+
+button,
+.button {
+  padding-inline: 1rem;
+  padding-block: 0.5rem;
+  display: inline-block;
+  text-decoration: none;
+  font-weight: bold;
+  border-width: 1px;
+  transition:
+    transform 200ms,
+    background-color 300ms;
+  border-radius: 0.2rem;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+:where(button, .button):is(.outlined) {
+  border-style: solid;
+}
+
+:where(button, .button):not(.outlined) {
+  border-style: none;
+}
+
+button:active,
+.button:active {
+  transform: scale(0.95);
+}
+
+.wrapper {
+  max-width: min(100% - 3rem, 75ch);
+  margin-inline: auto;
+}

@@ -1,0 +1,26 @@
+/* 
+  Hi, Sam here.
+  I'm trying out a dynamic hsl system using
+  css variables.  This is new for me but
+  seems really cool.
+*/
+
+:root {
+  --palette-saturation-none: 0%;
+  --palette-saturation-low: 20%;
+  --palette-saturation-mid: 50%;
+  --palette-saturation-high: 80%;
+  --palette-saturation-full: 100%;
+
+  --palette-primary-hue: 140;
+  --palette-primary-saturation: var(--palette-saturation-mid);
+
+  --palette-secondary-hue: 180;
+  --palette-secondary-saturation: var(--palette-saturation-mid);
+
+  --palette-tertiary-hue: 0;
+  --palette-tetiary-saturation: var(--palette-saturation-mid);
+
+  --palette-neutral-hue: 0;
+  --palette-neutral-saturation: var(--palette-saturation-none);
+}
